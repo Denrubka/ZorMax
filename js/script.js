@@ -1,82 +1,51 @@
-document.addEventListener('DOMContentLoaded', () => {
+const tabs = document.querySelectorAll('.vacansies-tab');
+const menuOpen = document.querySelector('.menu-open');
+const menuClose = document.querySelector('.menu-close');
+const mobileMenu = document.querySelector('.mobile-menu');
+const content = document.querySelector('.content');
+const links = document.querySelectorAll('a[href*="#"]')
+let hash = location.hash.substring(1);
+let tabActive = '';
+
+const slider = new Swiper('.vacansies-slider', {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    loop: true,
+    observer: true,
+    initialSlide: 0,
+    observeSlideChildren: true,
+    observeParents: true,
+    breakpoints: {
+      // when window width is >= 640px
+    640: {
+        slidesPerView: 3,
+        spaceBetween: 40
+    }
+    },
+
+    // Navigation arrows
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+});
 
 
-    const tabs = document.querySelectorAll('.vacansies-tab');
-    const sliders = document.querySelectorAll('.vacansies-slider');
-    const menuOpen = document.querySelector('.menu-open');
-    const menuClose = document.querySelector('.menu-close');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const content = document.querySelector('.content');
-    const links = document.querySelectorAll('a[href*="#"]')
-
-    tabs.forEach((tab, index) => {
-        tab.addEventListener('click', () => {
-            tabs.forEach((elem, i) => {
-                elem.classList.remove('tab-active');
-                sliders[i].classList.add('hidden');
-            })
-            tab.classList.add('tab-active');
-            sliders[index].classList.remove('hidden');
-
+tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+        tabs.forEach(tab => {
+            tab.classList.remove('tab-active');
         })
+        if(!tab.matches('.tab-active')) {
+            tab.classList.add('tab-active');
+        }
     })
+})
 
-    menuOpen.addEventListener('click', () => {
-        mobileMenu.classList.add('mobile-menu__active');
-        content.classList.add('content-active')
-        document.body.classList.add('noscroll')
-    })
-    menuClose.addEventListener('click', () => {
-        mobileMenu.classList.remove('mobile-menu__active');
-        content.classList.remove('content-active')
-        document.body.classList.remove('noscroll')
-    })
 
-    // for (let link of links) {
-    //     link.addEventListener('click', function (e) {
-    //     e.preventDefault()
-        
-    //     const blockID = link.getAttribute('href').substr(1)
-        
-        
-    //     if(blockID.length > 2) {
-    //     document.getElementById(blockID).scrollIntoView({
-    //         behavior: 'smooth',
-    //         block: 'start'
-    //         })
-    //     }
-    //     })
-    // }
 
-});
-$(document).ready(function(){
-    $('.vacansies-slider').slick({
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        infinite: false,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 991,
-                settings: {
-                    slidesToShow: 2,
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 1,
-                }
-            },
-        ]
-    });
-});
+
+
 
 // Запрос базы данных 
 
@@ -98,11 +67,58 @@ const getVacansies = (callback, prop, value) => {
             } else {
                 callback(data);
             }
+            if(value === "Все вакансии") {
+                callback(data);
+            }
         })
         .catch(err => {
             console.error(err);
         })
 }
+
+try {
+    if(!document.querySelector('.about')) {
+        throw 'This is not a main page'
+    }
+    const slider = document.querySelector('.swiper-parrent');
+
+    const createSlide = ({name, experience, id}) => {
+        const div = document.createElement('div');
+        div.classList.add('vacansies-slider__card');
+        div.classList.add('swiper-slide');
+
+        div.innerHTML = `
+        <h3 class="vacansies-slider__card-title">${name}</h3>
+        <span class="vacansies-slider__card-experience">Опыт работы: <span class="vacansies-slider__card-strong">${experience}</span></span>
+        <a href="vacansies-page.html#${id}" class="vacansies-slider__card-link">Подробнее
+            <svg class="icon" width="24" height="12">
+                <use xlink:href="./img/icons/icons.svg#next"></use>
+            </svg>
+        </a>
+        `
+        return div;
+    }
+
+    const renderSliderList = data => {
+        slider.textContent = '';
+        
+        data.forEach(item => {
+            const slide = createSlide(item);
+            slider.append(slide);
+        }) 
+    }
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabActive = tab.textContent
+            getVacansies(renderSliderList, "category", tabActive);
+            swiper.init();
+        })
+    })
+    getVacansies(renderSliderList, "category", tabActive);
+} catch(err) {
+    console.warn(err);
+}
+
 
 try {
     if(!document.querySelector('.vacansies-page')) {
@@ -133,3 +149,17 @@ try {
 } catch(err) {
     console.warn(err);
 }
+
+
+menuOpen.addEventListener('click', () => {
+    mobileMenu.classList.add('mobile-menu__active');
+    content.classList.add('content-active')
+    document.body.classList.add('noscroll')
+})
+menuClose.addEventListener('click', () => {
+    mobileMenu.classList.remove('mobile-menu__active');
+    content.classList.remove('content-active')
+    document.body.classList.remove('noscroll')
+})
+
+

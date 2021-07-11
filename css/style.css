@@ -67,14 +67,6 @@ body {
   color: #fff;
 }
 
-.hidden {
-  opacity: 0;
-  height: 0;
-  -webkit-transform: scaleY(0);
-      -ms-transform: scaleY(0);
-          transform: scaleY(0);
-}
-
 .tab-active {
   color: #F3580B;
 }
