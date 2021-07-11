@@ -88,20 +88,6 @@ body {
   overflow-y: hidden;
 }
 
-.content {
-  -webkit-transition: 0.5s;
-  -o-transition: 0.5s;
-  transition: 0.5s;
-  position: relative;
-  z-index: 0;
-}
-
-.content-active {
-  -webkit-transform: translateX(-30%);
-      -ms-transform: translateX(-30%);
-          transform: translateX(-30%);
-}
-
 /* Slider */
 
 .slick-slider {
@@ -1422,6 +1408,12 @@ body {
   padding-bottom: 8px;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
+  text-decoration: none;
+  color: #000;
+}
+
+.header-logo:hover {
+  cursor: pointer;
 }
 
 .hero {
@@ -2043,6 +2035,8 @@ td {
 
 .vacansies-page__wrapper {
   margin-left: 22%;
+  max-width: 777px;
+  width: 100%;
 }
 
 .vacansies-page__title {
@@ -2076,6 +2070,87 @@ td {
   line-height: 25px;
   color: #000000;
   margin: 0 0 13px 0;
+}
+
+.vacansies-page__skills-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 28px;
+}
+
+.vacansies-page__skills-item {
+  position: relative;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 27px;
+  color: #050303;
+  margin-left: 23px;
+}
+
+.vacansies-page__skills-item:before {
+  position: absolute;
+  content: '';
+  left: -23px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 15px;
+  height: 1px;
+  background-color: #F3580B;
+}
+
+.vacansies-page__skills-item:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.vacansies-page__offer-title {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  color: #000000;
+  margin: 0 0 13px 0;
+}
+
+.vacansies-page__offer-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 23px;
+}
+
+.vacansies-page__offer-item {
+  position: relative;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 27px;
+  color: #050303;
+  margin-left: 23px;
+}
+
+.vacansies-page__offer-item:before {
+  position: absolute;
+  content: '';
+  left: -23px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 15px;
+  height: 1px;
+  background-color: #F3580B;
+}
+
+.vacansies-page__offer-item:not(:last-child) {
+  margin-bottom: 13px;
+}
+
+.vacansies-page__text {
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 28px;
+  color: #000000;
 }
 
 @media (min-width: 576px) {
@@ -6893,6 +6968,10 @@ td {
   .menu-open {
     display: block;
   }
+
+  .vacansies-page__wrapper {
+    margin-left: 10%;
+  }
 }
 
 @media (max-width: 767px) {
@@ -6970,7 +7049,11 @@ td {
   }
 
   .mobile-menu {
-    width: 50%;
+    width: 70%;
+  }
+
+  .vacansies-page__wrapper {
+    margin-left: 0;
   }
 }
 
@@ -7003,7 +7086,7 @@ td {
 
 @media (max-width: 460px) {
   .mobile-menu {
-    width: 70%;
+    width: 100%;
   }
 }
 
