@@ -7117,8 +7117,17 @@ td {
     width: 100%;
   }
 
+  .values-cards {
+    gap: 0;
+  }
+
   .values-card {
     width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .contacts-block__text {
+    padding: 15px;
   }
 
   .contacts-block__table-left {
