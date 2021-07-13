@@ -31,22 +31,6 @@ const slider = new Swiper('.vacansies-slider', {
 });
 
 
-tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-        tabs.forEach(tab => {
-            tab.classList.remove('tab-active');
-        })
-        if(!tab.matches('.tab-active')) {
-            tab.classList.add('tab-active');
-        }
-    })
-})
-
-
-
-
-
-
 // Запрос базы данных 
 
 const getData = async() => {
@@ -76,9 +60,11 @@ const getVacansies = (callback, prop, value) => {
         })
 }
 
+
+// Генерация слайдера на главной странице
 try {
-    if(!document.querySelector('.about')) {
-        throw 'This is not a main page'
+    if(!document.querySelector('.vacansies-slider')) {
+        throw 'This is not a slider'
     }
     const slider = document.querySelector('.swiper-parrent');
 
@@ -111,7 +97,6 @@ try {
         tab.addEventListener('click', () => {
             tabActive = tab.textContent
             getVacansies(renderSliderList, "category", tabActive);
-            swiper.init();
         })
     })
     getVacansies(renderSliderList, "category", tabActive);
@@ -119,7 +104,7 @@ try {
     console.warn(err);
 }
 
-
+// Генерация страницы вакансии
 try {
     if(!document.querySelector('.vacansies-page')) {
         throw 'This is a not vacansies-page';
@@ -134,7 +119,7 @@ try {
     const generateList = data => data.reduce((html, item, i) =>
     html + `<li class="vacansies-page__skills-item" data-id="${i}">${item}</li>`, '')
 
-    const renderVacansiesPage = ([{ name, experience, skills, offers }]) => {
+    const renderVacansiesPage = ([{ name, experience, skills, offers, text }]) => {
         vacansiesPageTitle.textContent = name;
         vacansiesPageExperienceSubtitle.textContent = experience;
         vacansiesPageSkillsList.innerHTML = generateList(skills);
@@ -145,11 +130,26 @@ try {
             vacansiesPageText.style.display = 'none';
         }
     }
+    window.addEventListener('hashchange', () => {
+        hash = location.hash.substring(1);
+        getVacansies(renderVacansiesPage, "id", hash);
+        window.scrollTo(0, 0);
+    })
     getVacansies(renderVacansiesPage, 'id', hash);
 } catch(err) {
     console.warn(err);
 }
 
+tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+        tabs.forEach(tab => {
+            tab.classList.remove('tab-active');
+        })
+        if(!tab.matches('.tab-active')) {
+            tab.classList.add('tab-active');
+        }
+    })
+})
 
 menuOpen.addEventListener('click', () => {
     mobileMenu.classList.add('mobile-menu__active');
