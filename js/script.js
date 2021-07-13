@@ -9,7 +9,6 @@ let tabActive = '';
 
 const slider = new Swiper('.vacansies-slider', {
     slidesPerView: 1,
-    spaceBetween: 10,
     loop: true,
     observer: true,
     initialSlide: 0,
@@ -17,16 +16,24 @@ const slider = new Swiper('.vacansies-slider', {
     observeParents: true,
     breakpoints: {
       // when window width is >= 640px
-    640: {
+    360: {
+        slidesPerView: 1,
+        spaceBetween: 40
+    },
+    768: {
+        slidesPerView: 2,
+        spaceBetween: 40
+    },
+    1200: {
         slidesPerView: 3,
         spaceBetween: 40
-    }
+    },
     },
 
     // Navigation arrows
     navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: '.btn-next',
+        prevEl: '.btn-prev',
     },
 });
 
