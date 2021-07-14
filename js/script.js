@@ -4,12 +4,57 @@ const menuClose = document.querySelector('.menu-close');
 const mobileMenu = document.querySelector('.mobile-menu');
 const content = document.querySelector('.content');
 const links = document.querySelectorAll('a[href*="#"]')
+const headerSelectWrapper = document.querySelector('.header-select__wrapper');
+const headerSelectBtn = document.querySelector('.header-select__btn');
+const headerSelectList = document.querySelector('.header-select__list');
+const headerSelectItem = document.querySelector('.header-select__item');
+const headerSelectWrapperMobile = document.querySelector('.header-select__wrapper-mobile');
+const headerSelectBtnMobile = document.querySelector('.header-select__btn-mobile');
+const headerSelectListMobile = document.querySelector('.header-select__list-mobile');
+const headerSelectItemMobile = document.querySelector('.header-select__item-mobile');
 let hash = location.hash.substring(1);
 let tabActive = '';
 
+
+headerSelectWrapper.addEventListener('click', event => {
+    const target = event.target;
+    if(target === headerSelectBtn) {
+        headerSelectBtn.classList.toggle('header-select__btn-active');
+    headerSelectList.classList.toggle('header-select__list-active');
+    }
+    if(target == headerSelectItem) {
+        let lang = "";
+        lang = headerSelectBtn.textContent;
+        headerSelectBtn.textContent = target.textContent;
+        headerSelectBtnMobile.textContent = target.textContent;
+        target.textContent = lang;
+        headerSelectItemMobile.textContent = lang;
+        headerSelectBtn.classList.remove('header-select__btn-active');
+        headerSelectList.classList.remove('header-select__list-active');
+    }
+});
+headerSelectWrapperMobile.addEventListener('click', event => {
+    const target = event.target;
+    if(target === headerSelectBtnMobile) {
+        headerSelectBtnMobile.classList.toggle('header-select__btn-mobile-active');
+        headerSelectListMobile.classList.toggle('header-select__list-mobile-active');
+    }
+    if(target == headerSelectItemMobile) {
+        let lang = "";
+        lang = headerSelectBtnMobile.textContent;
+        headerSelectBtnMobile.textContent = target.textContent;
+        headerSelectBtn.textContent = target.textContent;
+        target.textContent = lang;
+        headerSelectItem.textContent = lang;
+        headerSelectBtnMobile.classList.remove('header-select__btn-mobile-active');
+        headerSelectListMobile.classList.remove('header-select__list-mobile-active');
+    }
+});
+
+
 const slider = new Swiper('.vacansies-slider', {
     slidesPerView: 1,
-    loop: true,
+    slidesPerGroup: 1,
     observer: true,
     initialSlide: 0,
     observeSlideChildren: true,
@@ -18,14 +63,17 @@ const slider = new Swiper('.vacansies-slider', {
       // when window width is >= 640px
     360: {
         slidesPerView: 1,
+        slidesPerGroup: 1,
         spaceBetween: 40
     },
     768: {
         slidesPerView: 2,
+        slidesPerGroup: 2,
         spaceBetween: 40
     },
     1200: {
         slidesPerView: 3,
+        slidesPerGroup: 3,
         spaceBetween: 40
     },
     },
@@ -34,6 +82,9 @@ const slider = new Swiper('.vacansies-slider', {
     navigation: {
         nextEl: '.btn-next',
         prevEl: '.btn-prev',
+    },
+    pagination: {
+        el: '.swiper-pagination',
     },
 });
 
